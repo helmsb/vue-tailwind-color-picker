@@ -2,7 +2,7 @@
 <template>
   <div id="app" class="h-screen" style="background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJElEQVQYV2NctWrVfwYkEBYWxojMZ6SDAmT7QGx0K1EcRBsFAADeG/3M/HteAAAAAElFTkSuQmCC') repeat">
     <div class="w-full h-full flex items-center justify-center" :style="{ backgroundColor: color }">
-      <vue-tailwind-color-picker v-model="color" :swatches.sync="swatches" :hide-swatches="false" @change="changedColor" @addSwatch="swatchAdded" @deleteSwatch="swatchDeleted" />
+      <vue-tailwind-color-picker v-model="color" :swatches.sync="swatches" :hideCanvasPicker="false" :hideColorBarPicker="false" :hideHexPicker="false" :hideSwatches="false" @change="changedColor" @addSwatch="swatchAdded" @deleteSwatch="swatchDeleted" />
     </div>
   </div>
 </template>

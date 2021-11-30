@@ -1,14 +1,19 @@
 <template>
   <div class="border min-w-min w-min rounded-lg bg-white">
     <div class="p-4 w-60">
-      <div class="w-52 h-40" :style="{ backgroundColor: canvasColor }">
+      <p v-if="allPickersHidden">
+        You have hidden all pickers. 
+        <br/>
+        Please unhide at least one picker.
+      </p>
+      <div v-if="!hideCanvasPicker" class="w-52 h-40" :style="{ backgroundColor: canvasColor }">
         <div class="w-full h-full" style="background-image:linear-gradient(90deg,#fff,rgba(204,154,129,0));">
           <div ref="canvas" class="w-full h-full relative cursor-pointer" style="background-image:linear-gradient(0deg,#000,rgba(204,154,129,0));" @mousedown="mousedownCanvas">
             <div ref="canvasCursor" class="h-4 w-4 border border-gray-200 rounded-full bg-white absolute -left-2 -top-2 pointer-events-none" style="box-shadow:2px 2px 2px 0 rgb(0 0 0 / 20%)"></div>
           </div>
         </div>
       </div>
-      <div class="w-52 flex my-2">
+      <div v-if="!hideColorBarPicker" class="w-52 flex my-2">
         <div class="w-8 h-8 rounded-lg" style="background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJElEQVQYV2NctWrVfwYkEBYWxojMZ6SDAmT7QGx0K1EcRBsFAADeG/3M/HteAAAAAElFTkSuQmCC') repeat">
           <div :style="{ backgroundColor: color }" class="w-full h-full rounded-lg" />
         </div>
@@ -23,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center">
+      <div v-if="!hideHexPicker" class="flex items-center">
         <div v-show="inputType === 'rgba'" class="flex">
           <div>
             <p class="text-center text-gray-500 text-sm">R</p>
@@ -76,11 +81,14 @@ export default {
   name: 'VueTailwindColorPicker',
   props: {
     value: String,
+    hideCanvasPicker: Boolean,
+    hideColorBarPicker: Boolean,
+    hideHexPicker: Boolean,
+    hideSwatches: Boolean,
     swatches: {
       type: Array,
       default: () => []
     },
-    hideSwatches: Boolean
   },
   data() {
     return {
@@ -155,6 +163,12 @@ export default {
       var opaque = `rgba(${this.colorData.r}, ${this.colorData.g}, ${this.colorData.b}, 0)`
       var solid = `rgba(${this.colorData.r}, ${this.colorData.g}, ${this.colorData.b}, 1)`
       return `linear-gradient(to right, ${opaque}, ${solid})`
+    },
+    allPickersHidden(){
+      if(this.hideCanvasPicker && this.hideColorBarPicker && this.hideHexPicker && this.hideSwatches){
+        return true;
+      }
+      return false;
     }
   },
   methods: {
